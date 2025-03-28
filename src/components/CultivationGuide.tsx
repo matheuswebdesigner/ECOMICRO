@@ -1,0 +1,86 @@
+import React, { useState } from 'react';
+import { Search, SlidersHorizontal } from 'lucide-react';
+import { speciesList, Species } from '../data/speciesData'; // Import data and type
+import SpeciesCard from './SpeciesCard'; // Import the card component
+
+interface CultivationGuideProps {
+  onSelectSpecies: (id: string) => void; // Callback to navigate to detail view
+}
+
+const CultivationGuide: React.FC<CultivationGuideProps> = ({ onSelectSpecies }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [favorites, setFavorites] = useState<Set<string>>(new Set()); // Manage favorite state
+
+  // Basic filtering logic (can be expanded)
+  const filteredSpecies = speciesList.filter(species =>
+    species.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Handle favorite toggle
+  const toggleFavorite = (id: string) => {
+    setFavorites(prev => {
+      const newFavorites = new Set(prev);
+      if (newFavorites.has(id)) {
+        newFavorites.delete(id);
+      } else {
+        newFavorites.add(id);
+      }
+      // TODO: Persist favorites (e.g., localStorage)
+      return newFavorites;
+    });
+  };
+
+  return (
+    <div className="min-h-screen bg-eco-light-bg dark:bg-eco-dark-bg text-eco-text-dark dark:text-eco-text-light font-sans pb-24"> {/* Padding for potential bottom nav */}
+      {/* Sticky Header */}
+      <div className="sticky top-0 z-40 bg-eco-light-bg dark:bg-eco-dark-bg shadow-sm py-4 px-4">
+        <h1 className="text-2xl font-bold text-eco-primary dark:text-eco-accent-light mb-4 text-center">
+          Guia de Cultivo
+        </h1>
+        <div className="flex items-center space-x-2">
+          <div className="relative flex-grow">
+            <input
+              type="text"
+              placeholder="Procure por espécie..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-eco-primary/50 dark:focus:ring-eco-accent-light/50"
+            />
+            <Search
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500"
+              size={20}
+            />
+          </div>
+          <button className="p-2 bg-white dark:bg-gray-800 rounded-full border border-gray-300 dark:border-gray-600 text-eco-primary dark:text-eco-accent-light hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+            <SlidersHorizontal size={20} />
+          </button>
+        </div>
+      </div>
+
+      {/* Grid of Species Cards */}
+      <div className="container mx-auto px-4 py-6">
+        {filteredSpecies.length > 0 ? (
+          <div className="grid grid-cols-2 gap-4 md:gap-6">
+            {filteredSpecies.map(species => (
+              <SpeciesCard
+                key={species.id}
+                species={species}
+                onSelect={onSelectSpecies}
+                onFavorite={toggleFavorite}
+                isFavorite={favorites.has(species.id)}
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-gray-500 dark:text-gray-400 mt-8">
+            Nenhuma espécie encontrada para "{searchTerm}".
+          </p>
+        )}
+      </div>
+
+      {/* TODO: Add Bottom Navigation if needed, or adjust padding */}
+    </div>
+  );
+};
+
+export default CultivationGuide;

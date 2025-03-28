@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@keyframes background- Kenzo from Unsplash {
+@keyframes background-kenzo { /* Renamed keyframe */
   0% {
     transform: scale(1.0);
     opacity: 0.8;
@@ -65,8 +65,8 @@
 }
 
 
-.animate-background- Kenzo from Unsplash {
-  animation: background- Kenzo from Unsplash 10s infinite alternate;
+.animate-background-kenzo { /* Updated class name */
+  animation: background-kenzo 10s infinite alternate;
 }
 
 .animate-logo-grow {
@@ -85,4 +85,29 @@
 
 .animate-loading-bar {
   animation: loading-bar 2s linear forwards;
+}
+
+/* Add scrollbar hiding utility */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Ensure body takes full height */
+html, body, #root, .app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif; /* Apply base font */
+}
+
+/* Apply base background and text colors */
+body {
+  @apply bg-eco-light-bg text-eco-text-dark dark:bg-eco-dark-bg dark:text-eco-text-light;
 }
