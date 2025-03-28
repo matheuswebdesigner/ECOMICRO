@@ -1,10 +1,10 @@
 import React from 'react'
 import {
-  BookOpen, // Keep for potential future use or replace with Library if needed
+  // BookOpen, // Keep for potential future use or replace with Library if needed
   Heart,
   Bug,
   Scissors,
-  Library, // Used for Biblioteca
+  // Library, // Removed as the card is being removed
   Home as HomeIcon,
   Star,
   Bell,
@@ -44,10 +44,10 @@ const Home: React.FC<HomeProps> = ({ navigateToGuideList }) => {
     // navigateToSpeciesDetail(id); // Needs implementation in App.tsx and passed down
   }
 
-  // Define Quick Access Items
+  // Define Quick Access Items (Biblioteca removed)
   const quickAccessItems = [
-    { icon: Sprout, label: 'Guia de Cultivo', color: 'text-eco-primary' }, // Added Guia de Cultivo
-    { icon: Library, label: 'Biblioteca', color: 'text-green-600' },
+    { icon: Sprout, label: 'Guia de Cultivo', color: 'text-eco-primary' },
+    // { icon: Library, label: 'Biblioteca', color: 'text-green-600' }, // Removed Biblioteca
     { icon: Heart, label: 'Benefícios', color: 'text-red-500' },
     { icon: Bug, label: 'Controle de Pragas', color: 'text-yellow-600' },
     { icon: Scissors, label: 'Colheita', color: 'text-purple-500' },
@@ -90,9 +90,7 @@ const Home: React.FC<HomeProps> = ({ navigateToGuideList }) => {
             <button
               key={index}
               onClick={() => handleQuickAccessClick(item.label)}
-              // Add col-span-2 to the last item if there's an odd number for better centering,
-              // but with 5 items, the default grid flow might be acceptable.
-              // className={`... ${quickAccessItems.length % 2 !== 0 && index === quickAccessItems.length - 1 ? 'col-span-2 mx-auto w-1/2' : ''}`}
+              // Adjust grid span if needed for odd numbers, though 4 items fit well
               className={`bg-white dark:bg-gray-800 rounded-card shadow-card p-4 flex flex-col items-center justify-center text-center aspect-square transform transition-transform duration-250 hover:shadow-card-hover hover:-translate-y-1`}
             >
               <item.icon className={`w-10 h-10 mb-2 ${item.color} dark:text-eco-secondary`} strokeWidth={1.5} />

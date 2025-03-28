@@ -4,7 +4,7 @@ import Onboarding from './components/Onboarding';
 import Home from './components/Home';
 import CultivationGuide from './components/CultivationGuide'; // Import Cultivation Guide
 import SpeciesDetail from './components/SpeciesDetail'; // Import Species Detail
-import { Library, Home as HomeIcon, Star, Bell } from 'lucide-react'; // Import icons for nav
+import { Library, Home as HomeIcon, Star, Bell, Sprout } from 'lucide-react'; // Import icons for nav, Sprout for Guia
 
 // Define possible application views/screens
 type AppView = 'SPLASH' | 'ONBOARDING' | 'HOME' | 'GUIDE_LIST' | 'SPECIES_DETAIL';
@@ -46,7 +46,7 @@ function App() {
   // --- Navigation Handlers ---
   const navigateToGuideList = () => {
     setCurrentView('GUIDE_LIST');
-    setActiveTab('Biblioteca'); // Update active tab in bottom nav
+    setActiveTab('Guia de Cultivo'); // Update active tab to the new label
   };
 
   const navigateToHome = () => {
@@ -69,14 +69,14 @@ function App() {
   const handleSelectSpecies = (id: string) => {
     setSelectedSpeciesId(id);
     setCurrentView('SPECIES_DETAIL');
-    // Keep 'Biblioteca' active when viewing details from the guide list
-    setActiveTab('Biblioteca');
+    // Keep 'Guia de Cultivo' active when viewing details from the guide list
+    setActiveTab('Guia de Cultivo');
   };
 
   const handleBackToList = () => {
     setSelectedSpeciesId(null);
     setCurrentView('GUIDE_LIST'); // Go back to the list view
-    setActiveTab('Biblioteca'); // Keep Biblioteca active
+    setActiveTab('Guia de Cultivo'); // Keep Guia de Cultivo active
   };
 
   // --- Render Logic ---
@@ -106,7 +106,7 @@ function App() {
   // --- Bottom Navigation Items ---
    const navItems = [
     { icon: HomeIcon, label: 'Home', action: navigateToHome },
-    { icon: Library, label: 'Biblioteca', action: navigateToGuideList }, // Label remains Biblioteca for nav
+    { icon: Sprout, label: 'Guia de Cultivo', action: navigateToGuideList }, // Changed icon and label
     { icon: Star, label: 'Favoritos', action: navigateToFavorites },
     { icon: Bell, label: 'Dicas', action: navigateToTips },
   ];
@@ -124,7 +124,7 @@ function App() {
          <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-md z-50">
           <div className="container mx-auto flex justify-around items-center h-16 max-w-md">
             {navItems.map((item) => {
-               const isActive = item.label === activeTab;
+               const isActive = item.label === activeTab; // Check against the current activeTab state
                return (
                  <button
                    key={item.label}
