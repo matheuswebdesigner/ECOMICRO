@@ -33,7 +33,7 @@ const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
         <div className="logo-container">
           <Leaf className="w-20 h-20 text-lime-700 dark:text-eco-accent-light animate-logo-grow" />
         </div>
-        <h1 className="text-3xl font-extrabold text-lime-700 dark:text-eco-accent-light mt-4 animate-fade-in">Eco Micro</h1>
+        <h1 className="text-3xl font-extrabold text-lime-700 dark:text-eco-accent-light mt-4 animate-fade-in">Vida no Broto</h1> {/* Updated Name */}
         <p className="text-sm text-lime-600 dark:text-lime-300 mt-2 italic animate-slide-up">
           Cultive saúde, colha vitalidade.
         </p>

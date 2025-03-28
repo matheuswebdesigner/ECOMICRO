@@ -59,7 +59,7 @@ const Home: React.FC<HomeProps> = ({ navigateToGuideList }) => {
       <div className="container mx-auto px-4 py-6">
         {/* 1. Greeting */}
         <h1 className="text-2xl font-bold text-eco-primary dark:text-eco-accent-light mb-6">
-          🌱 Bem-vindo ao EcoMicro! Vamos cultivar juntos?
+          🌱 Bem-vindo ao Vida no Broto! Vamos cultivar juntos? {/* Updated Name */}
         </h1>
 
         {/* 2. Conditional Cultivation Card */}
