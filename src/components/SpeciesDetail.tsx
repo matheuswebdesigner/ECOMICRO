@@ -73,18 +73,12 @@ const SpeciesDetail: React.FC<SpeciesDetailProps> = ({ speciesId, onBack }) => {
         />
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
-         {/* Image Caption - Improved Style with spacing */}
-         <p className="absolute bottom-3 left-4 text-sm text-white/90 drop-shadow"> {/* Increased size, added drop-shadow */}
-           {species.name} - Pronto para colheita
-         </p>
       </div>
 
       {/* Content Area */}
       <div className="container mx-auto px-4 py-6 -mt-16 md:-mt-20 relative z-10"> {/* Adjusted negative margin */}
         {/* Title - Moved below image */}
         <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">{species.name}</h1>
-        {/* Optional: Add a short description/tagline here */}
-        {/* <p className="text-gray-200 dark:text-gray-300 mb-6">Um microverde rápido e saboroso.</p> */}
 
         {/* Quick Info Cards - Improved Styling */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10"> {/* Increased gap and mb */}
@@ -140,10 +134,10 @@ const SpeciesDetail: React.FC<SpeciesDetailProps> = ({ speciesId, onBack }) => {
                         aria-label={`Marcar etapa ${step.title} como concluída`}
                       />
                     </div>
-                     {/* Optional Step Image */}
-                     {step.image && (
+                     {/* REMOVED: Optional Step Image */}
+                     {/* {step.image && (
                        <img src={step.image} alt={`Etapa ${step.day}`} className="mt-3 w-full h-24 object-cover rounded-md sm:w-32 sm:h-20" />
-                     )}
+                     )} */}
                  </div>
               </div>
             );

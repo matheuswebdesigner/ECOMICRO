@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, Clock, Sun, Zap, ChevronRight } from 'lucide-react'; // Added icons
+import { Heart, Clock, Sun, ChevronRight } from 'lucide-react'; // Removed Zap as it wasn't used
 import { Species } from '../data/speciesData';
 
 interface SpeciesCardProps {
@@ -24,13 +24,16 @@ const SpeciesCard: React.FC<SpeciesCardProps> = ({ species, onSelect, onFavorite
   return (
     <div
       onClick={() => onSelect(species.id)}
-      className="bg-white dark:bg-gray-800 rounded-xl shadow-card overflow-hidden group cursor-pointer transform transition-all duration-250 hover:shadow-card-hover hover:-translate-y-1 flex flex-col" // Added flex-col
+      className="bg-white dark:bg-gray-800 rounded-xl shadow-card overflow-hidden group cursor-pointer transform transition-all duration-250 hover:shadow-card-hover hover:-translate-y-1 flex flex-col"
     >
       <div className="relative">
+        {/* Ensure species.image is a valid and accessible URL */}
         <img
+          key={species.id} // Added key for potential reconciliation issues (unlikely cause)
           src={species.image}
           alt={species.name}
-          className="w-full h-32 object-cover transition-transform duration-300 group-hover:scale-105" // Fixed height
+          className="w-full h-32 object-cover transition-transform duration-300 group-hover:scale-105" // Standard classes for card image
+          loading="lazy" // Added lazy loading for potential performance benefit
         />
         {/* Favorite Button */}
         <button
@@ -50,7 +53,7 @@ const SpeciesCard: React.FC<SpeciesCardProps> = ({ species, onSelect, onFavorite
          </span>
       </div>
 
-      <div className="p-3 flex flex-col flex-grow"> {/* Added flex-grow */}
+      <div className="p-3 flex flex-col flex-grow">
         <h3 className="font-semibold text-base mb-1.5 truncate">{species.name}</h3>
 
         {/* Info Icons */}
@@ -63,15 +66,10 @@ const SpeciesCard: React.FC<SpeciesCardProps> = ({ species, onSelect, onFavorite
             <Sun size={12} />
             <span className="truncate">{species.light}</span>
           </div>
-          {/* <div className="flex items-center space-x-1" title={`Rega: ${species.watering}`}>
-            <Droplets size={12} />
-            <span>{species.watering}</span>
-          </div> */}
         </div>
 
-        {/* View Guide Button - Added margin-top auto to push to bottom */}
+        {/* View Guide Button */}
         <button
-          // onClick handled by parent div, but keep for potential future direct actions
           className="mt-auto w-full bg-eco-secondary dark:bg-eco-primary text-eco-primary dark:text-white px-3 py-1.5 rounded-lg text-xs font-medium hover:opacity-90 transition-opacity flex items-center justify-center space-x-1.5"
         >
           <span>Ver guia</span>
