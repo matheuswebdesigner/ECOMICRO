@@ -4,10 +4,19 @@ import Onboarding from './components/Onboarding';
 import Home from './components/Home';
 import CultivationGuide from './components/CultivationGuide'; // Import Cultivation Guide
 import SpeciesDetail from './components/SpeciesDetail'; // Import Species Detail
+import Favorites from './components/Favorites'; // Import Favorites
+import Tips from './components/Tips'; // Import Tips
 import { Library, Home as HomeIcon, Star, Bell, Sprout } from 'lucide-react'; // Import icons for nav, Sprout for Guia
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from 'react-router-dom';
 
 // Define possible application views/screens
-type AppView = 'SPLASH' | 'ONBOARDING' | 'HOME' | 'GUIDE_LIST' | 'SPECIES_DETAIL';
+type AppView = 'SPLASH' | 'ONBOARDING' | 'HOME' | 'GUIDE_LIST' | 'SPECIES_DETAIL' | 'FAVORITES' | 'TIPS';
 
 function App() {
   const [currentView, setCurrentView] = useState<AppView>('SPLASH');
@@ -54,15 +63,13 @@ function App() {
     setActiveTab('Home');
   };
 
-   const navigateToFavorites = () => {
-    // TODO: Implement Favorites View
-    console.log("Navigate to Favorites (Not Implemented)");
+  const navigateToFavorites = () => {
+    setCurrentView('FAVORITES');
     setActiveTab('Favoritos');
   };
 
-   const navigateToTips = () => {
-    // TODO: Implement Tips View
-    console.log("Navigate to Tips (Not Implemented)");
+  const navigateToTips = () => {
+    setCurrentView('TIPS');
     setActiveTab('Dicas');
   };
 
@@ -88,7 +95,7 @@ function App() {
         return <Onboarding onComplete={handleOnboardingComplete} />;
       case 'HOME':
         // Pass the navigation function to Home
-        return <Home navigateToGuideList={navigateToGuideList} />;
+        return <Home navigateToGuideList={navigateToGuideList} navigateToSpeciesDetail={handleSelectSpecies} />;
       case 'GUIDE_LIST':
         return <CultivationGuide onSelectSpecies={handleSelectSpecies} />;
       case 'SPECIES_DETAIL':
@@ -98,13 +105,17 @@ function App() {
         // Fallback if ID is missing (should not happen with proper flow)
         navigateToGuideList(); // Go back to list if ID is lost
         return null;
+      case 'FAVORITES':
+        return <Favorites />;
+      case 'TIPS':
+        return <Tips />;
       default:
-        return <Home navigateToGuideList={navigateToGuideList} />; // Default to Home
+        return <Home navigateToGuideList={navigateToGuideList} navigateToSpeciesDetail={handleSelectSpecies} />; // Default to Home
     }
   };
 
   // --- Bottom Navigation Items ---
-   const navItems = [
+  const navItems = [
     { icon: HomeIcon, label: 'Home', action: navigateToHome },
     { icon: Sprout, label: 'Guia de Cultivo', action: navigateToGuideList }, // Changed icon and label
     { icon: Star, label: 'Favoritos', action: navigateToFavorites },
@@ -116,34 +127,43 @@ function App() {
   const showBottomNav = currentView !== 'SPLASH' && currentView !== 'ONBOARDING';
 
   return (
-    <div className="app relative min-h-screen">
-      {renderContent()}
+    <Router>
+      <div className="app relative min-h-screen">
+        <Routes>
+          <Route path="/" element={renderContent()} />
+          <Route path="/home" element={<Home navigateToGuideList={navigateToGuideList} navigateToSpeciesDetail={handleSelectSpecies} />} />
+          <Route path="/cultivation-guide" element={<CultivationGuide onSelectSpecies={handleSelectSpecies} />} />
+          <Route path="/species/:speciesId" element={<SpeciesDetail speciesId={null} onBack={handleBackToList} />} />
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/tips" element={<Tips />} />
+        </Routes>
 
-      {/* Bottom Navigation */}
-      {showBottomNav && (
-         <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-md z-50">
-          <div className="container mx-auto flex justify-around items-center h-16 max-w-md">
-            {navItems.map((item) => {
-               const isActive = item.label === activeTab; // Check against the current activeTab state
-               return (
-                 <button
-                   key={item.label}
-                   onClick={item.action}
-                   className={`flex flex-col items-center justify-center text-xs font-medium transition-colors w-1/4 pt-1 pb-0.5 ${ // Ensure equal width and padding
-                     isActive
-                       ? 'text-eco-primary dark:text-eco-accent-light'
-                       : 'text-gray-500 dark:text-gray-400 hover:text-eco-primary dark:hover:text-eco-accent-light'
-                   }`}
-                 >
-                   <item.icon className="w-5 h-5 mb-0.5" strokeWidth={isActive ? 2.5 : 2} />
-                   {item.label}
-                 </button>
-               );
-             })}
-          </div>
-        </nav>
-      )}
-    </div>
+        {/* Bottom Navigation */}
+        {showBottomNav && (
+          <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-md z-50">
+            <div className="container mx-auto flex justify-around items-center h-16 max-w-md">
+              {navItems.map((item) => {
+                const isActive = item.label === activeTab; // Check against the current activeTab state
+                return (
+                  <button
+                    key={item.label}
+                    onClick={item.action}
+                    className={`flex flex-col items-center justify-center text-xs font-medium transition-colors w-1/4 pt-1 pb-0.5 ${ // Ensure equal width and padding
+                      isActive
+                        ? 'text-eco-primary dark:text-eco-accent-light'
+                        : 'text-gray-500 dark:text-gray-400 hover:text-eco-primary dark:hover:text-eco-accent-light'
+                    }`}
+                  >
+                    <item.icon className="w-5 h-5 mb-0.5" strokeWidth={isActive ? 2.5 : 2} />
+                    {item.label}
+                  </button>
+                );
+              })}
+            </div>
+          </nav>
+        )}
+      </div>
+    </Router>
   );
 }
 
